@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structurize.ai - The Universal Data API</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#020617', 
+                        surface: '#0f172a',
+                        border: '#1e293b',
+                        primary: '#6366f1',
+                        primaryHover: '#4f46e5',
+                        secondary: '#64748b'
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'monospace'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; }
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        .nav-active { color: #fff; border-bottom: 2px solid #6366f1; }
+        .nav-inactive { color: #94a3b8; border-bottom: 2px solid transparent; }
+        .nav-inactive:hover { color: #fff; }
+        
+        /* Smooth Fade Transition */
+        .view-section { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .view-section.active { display: block; opacity: 1; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <nav class="border-b border-border bg-background/80 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="navigate('home')">
+                <i data-lucide="box" class="text-primary h-6 w-6"></i>
+                <span class="font-bold text-xl tracking-tight">Structurize<span class="text-primary">.ai</span></span>
+            </div>
+            
+            <div class="hidden md:flex gap-8 text-sm font-medium">
+                <button onclick="navigate('playground')" id="nav-playground" class="nav-inactive py-5 transition">Playground</button>
+                <button onclick="navigate('docs')" id="nav-docs" class="nav-inactive py-5 transition">Documentation</button>
+                <button onclick="navigate('pricing')" id="nav-pricing" class="nav-inactive py-5 transition">Pricing</button>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button onclick="navigate('dashboard')" class="text-sm font-medium text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+                </button>
+                <a href="https://github.com/your-repo" target="_blank" class="bg-white text-black px-4 py-2 rounded-md text-sm font-semibold hover:bg-slate-200 transition">
+                    Sign In
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="view-home" class="view-section active">
+        <div class="max-w-7xl mx-auto px-4 pt-20 pb-16 text-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-border text-xs text-primary font-medium mb-6">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </span>
+                v2.0 Now with Excel & Word Support
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-500 mb-6 tracking-tight">
+                Turn Chaos into JSON.
+            </h1>
+            <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+                The developer-first API to extract structured data from Invoices, PDF Resumes, and messy Excel files using Generative AI.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="navigate('playground')" class="bg-primary hover:bg-primaryHover text-white px-8 py-3.5 rounded-lg font-semibold text-lg flex items-center justify-center gap-2 transition shadow-lg shadow-primary/25">
+                    Try Playground <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+                <button onclick="navigate('docs')" class="bg-slate-800 hover:bg-slate-700 text-white px-8 py-3.5 rounded-lg font-semibold text-lg border border-border transition">
+                    Read Docs
+                </button>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass-panel p-6 rounded-xl hover:border-primary/50 transition">
+                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 text-primary"><i data-lucide="file-json"></i></div>
+                <h3 class="text-xl font-bold mb-2">Schema Enforcement</h3>
+                <p class="text-slate-400">You define the structure. Our AI guarantees the JSON matches your schema perfectly.</p>
+            </div>
+            <div class="glass-panel p-6 rounded-xl hover:border-primary/50 transition">
+                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 text-primary"><i data-lucide="globe"></i></div>
+                <h3 class="text-xl font-bold mb-2">Arabic & English</h3>
+                <p class="text-slate-400">Built-in support for RTL languages. Extracts Arabic names accurately without translation.</p>
+            </div>
+            <div class="glass-panel p-6 rounded-xl hover:border-primary/50 transition">
+                <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 text-primary"><i data-lucide="sheet"></i></div>
+                <h3 class="text-xl font-bold mb-2">Any Format</h3>
+                <p class="text-slate-400">Stop writing parsers. We handle PDF, JPG, Excel (XLSX), and Word (DOCX) out of the box.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="view-playground" class="view-section">
+        <div class="flex flex-col items-center justify-start pt-10 px-4 pb-20">
+            <div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-6 h-[750px] lg:h-[600px]">
+                
+                <div class="glass-panel rounded-xl flex flex-col overflow-hidden shadow-2xl">
+                    <div class="border-b border-border p-4 flex flex-col gap-4 bg-surface">
+                        <div class="flex gap-6 text-sm font-medium">
+                            <button onclick="setFileType('image')" id="btn-image" class="text-primary border-b-2 border-primary pb-2 flex items-center gap-2">
+                                <i data-lucide="image" class="w-4 h-4"></i> Image / PDF
+                            </button>
+                            <button onclick="setFileType('excel')" id="btn-excel" class="text-slate-400 border-b-2 border-transparent pb-2 flex items-center gap-2 hover:text-white">
+                                <i data-lucide="sheet" class="w-4 h-4"></i> Excel
+                            </button>
+                            <button onclick="setFileType('word')" id="btn-word" class="text-slate-400 border-b-2 border-transparent pb-2 flex items-center gap-2 hover:text-white">
+                                <i data-lucide="file-text" class="w-4 h-4"></i> Word
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs text-slate-500 mb-1">Language</label>
+                                <select class="w-full bg-background border border-border text-sm rounded-md px-3 py-2 text-slate-300 outline-none">
+                                    <option value="auto">✨ Auto-Detect</option>
+                                    <option value="ar">🇦🇪 Arabic (Preserve)</option>
+                                    <option value="en">🇺🇸 English</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-500 mb-1">Template</label>
+                                <select id="template-select" onchange="applyTemplate()" class="w-full bg-background border border-border text-sm rounded-md px-3 py-2 text-slate-300 outline-none">
+                                    <option value="custom">Custom Schema</option>
+                                    <option value="receipt">🧾 Receipt</option>
+                                    <option value="menu">🍔 Menu</option>
+                                    <option value="resume">📝 Resume</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-grow flex flex-col p-4 gap-4">
+                        <div class="border-2 border-dashed border-border rounded-lg h-24 flex flex-col items-center justify-center text-slate-500 hover:border-primary/50 cursor-pointer">
+                            <i data-lucide="upload-cloud" class="w-6 h-6 mb-1"></i>
+                            <span class="text-xs">Drag file or click to upload</span>
+                        </div>
+                        <div class="flex-grow flex flex-col">
+                            <div class="flex justify-between items-center mb-1"><label class="text-xs text-slate-500 font-mono">SCHEMA</label></div>
+                            <textarea id="schema-editor" class="flex-grow w-full bg-background border border-border rounded-md p-3 code-font text-sm text-green-400 outline-none resize-none">{
+  "total": "number",
+  "date": "string"
+}</textarea>
+                        </div>
+                    </div>
+                    <div class="p-4 border-t border-border bg-surface flex justify-end">
+                        <button onclick="runSimulation()" class="bg-primary hover:bg-primaryHover text-white px-6 py-2 rounded-md text-sm font-semibold flex items-center gap-2">
+                            <i data-lucide="zap" class="w-4 h-4"></i> Run
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-xl flex flex-col overflow-hidden relative shadow-2xl">
+                    <div class="border-b border-border p-3 bg-surface flex justify-between items-center">
+                        <span class="text-xs font-mono text-slate-500">OUTPUT.JSON</span>
+                    </div>
+                    <div class="flex-grow bg-[#0d1117] p-4 overflow-auto relative">
+                         <div id="loader" class="absolute inset-0 bg-background/80 hidden flex-col items-center justify-center z-10 backdrop-blur-sm">
+                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-2"></div>
+                            <span class="text-xs text-slate-300 animate-pulse">Processing...</span>
+                        </div>
+                        <pre id="json-output" class="code-font text-sm text-blue-300">// Output will appear here...</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="view-docs" class="view-section">
+        <div class="max-w-7xl mx-auto px-4 py-10 flex flex-col md:flex-row gap-10">
+            <div class="w-full md:w-64 flex-shrink-0">
+                <div class="sticky top-24">
+                    <h5 class="text-sm font-bold text-slate-200 mb-4 uppercase tracking-wider">Getting Started</h5>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#" class="text-primary font-medium">Introduction</a></li>
+                        <li><a href="#" class="hover:text-white">Authentication</a></li>
+                        <li><a href="#" class="hover:text-white">Quickstart</a></li>
+                    </ul>
+                    <h5 class="text-sm font-bold text-slate-200 mt-8 mb-4 uppercase tracking-wider">API Reference</h5>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#" class="hover:text-white">POST /extract</a></li>
+                        <li><a href="#" class="hover:text-white">Rate Limits</a></li>
+                        <li><a href="#" class="hover:text-white">Errors</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex-grow prose prose-invert prose-slate max-w-none">
+                <h1 class="text-3xl font-bold mb-4">Introduction</h1>
+                <p class="text-slate-400 mb-6">Structurize.ai is a unified API to extract data from any file format. Instead of training custom models, you simply provide a <code class="bg-slate-800 px-1 py-0.5 rounded text-sm">JSON Schema</code>, and our AI ensures the output matches it.</p>
+                
+                <h2 class="text-2xl font-bold mb-4 mt-8">Authentication</h2>
+                <p class="text-slate-400 mb-4">All API requests require a Bearer Token. You can generate one in your Dashboard.</p>
+                <div class="bg-slate-900 border border-border rounded-lg p-4">
+                    <code class="code-font text-sm text-blue-300">Authorization: Bearer sk_live_8392...</code>
+                </div>
+
+                <h2 class="text-2xl font-bold mb-4 mt-8">Endpoint</h2>
+                <div class="bg-slate-900 border border-border rounded-lg p-4 mb-4">
+                    <span class="text-green-400 font-bold">POST</span> <span class="text-slate-300">https://api.structurize.ai/v1/extract</span>
+                </div>
+                <p class="text-slate-400 mb-2">Body Parameters:</p>
+                <ul class="list-disc list-inside text-slate-400 space-y-1">
+                    <li><code class="text-primary">file</code> (string): Base64 encoded file.</li>
+                    <li><code class="text-primary">fileType</code> (string): 'image', 'excel', 'word'.</li>
+                    <li><code class="text-primary">schema</code> (object): The target JSON structure.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="view-pricing" class="view-section">
+        <div class="max-w-7xl mx-auto px-4 py-20 text-center">
+            <h2 class="text-3xl font-bold mb-4">Simple, transparent pricing</h2>
+            <p class="text-slate-400 mb-12">Start for free, scale as you grow.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="glass-panel p-8 rounded-xl text-left border-t-4 border-slate-500">
+                    <h3 class="text-2xl font-bold mb-2">Hacker</h3>
+                    <div class="text-3xl font-bold mb-4">$0 <span class="text-sm font-normal text-slate-400">/mo</span></div>
+                    <p class="text-slate-400 mb-6 text-sm">Perfect for hackathons and testing.</p>
+                    <ul class="space-y-3 mb-8 text-sm text-slate-300">
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400"></i> 50 Requests / month</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400"></i> 3 Schema Templates</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-green-400"></i> Community Support</li>
+                    </ul>
+                    <button class="w-full py-2 rounded-lg border border-border text-white hover:bg-slate-800 transition">Current Plan</button>
+                </div>
+
+                <div class="glass-panel p-8 rounded-xl text-left border-t-4 border-primary relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-primary text-white text-xs px-3 py-1 rounded-bl-lg font-bold">POPULAR</div>
+                    <h3 class="text-2xl font-bold mb-2">Pro</h3>
+                    <div class="text-3xl font-bold mb-4">$29 <span class="text-sm font-normal text-slate-400">/mo</span></div>
+                    <p class="text-slate-400 mb-6 text-sm">For businesses digitizing workflows.</p>
+                    <ul class="space-y-3 mb-8 text-sm text-slate-300">
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-primary"></i> 5,000 Requests / month</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-primary"></i> Excel & Word Support</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 text-primary"></i> Priority Support</li>
+                    </ul>
+                    <button class="w-full py-2 rounded-lg bg-primary text-white hover:bg-primaryHover transition shadow-lg shadow-primary/25">Upgrade Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="view-dashboard" class="view-section">
+        <div class="max-w-5xl mx-auto px-4 py-10">
+            <h2 class="text-2xl font-bold mb-6">Developer Dashboard</h2>
+            
+            <div class="glass-panel p-6 rounded-xl mb-8">
+                <div class="flex justify-between items-end mb-2">
+                    <h4 class="text-sm font-medium text-slate-400">Monthly Usage</h4>
+                    <span class="text-sm font-bold text-white">45 / 50 Credits</span>
+                </div>
+                <div class="w-full bg-slate-800 rounded-full h-2.5">
+                    <div class="bg-primary h-2.5 rounded-full" style="width: 90%"></div>
+                </div>
+                <p class="text-xs text-slate-500 mt-2">Cycle resets in 3 days.</p>
+            </div>
+
+            <div class="glass-panel rounded-xl overflow-hidden">
+                <div class="p-6 border-b border-border flex justify-between items-center">
+                    <h3 class="text-lg font-bold">API Keys</h3>
+                    <button class="bg-white text-black text-xs font-bold px-3 py-1.5 rounded hover:bg-slate-200 transition">
+                        + Create New Key
+                    </button>
+                </div>
+                <div class="p-0">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-slate-500 uppercase bg-surface">
+                            <tr>
+                                <th class="px-6 py-3">Name</th>
+                                <th class="px-6 py-3">Key Token</th>
+                                <th class="px-6 py-3">Created</th>
+                                <th class="px-6 py-3 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-border">
+                            <tr class="hover:bg-slate-800/50 transition">
+                                <td class="px-6 py-4 font-medium">Production App</td>
+                                <td class="px-6 py-4 font-mono text-slate-400">sk_live_8392...8s9a</td>
+                                <td class="px-6 py-4 text-slate-500">Jan 12, 2026</td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-red-400 hover:text-red-300 text-xs">Revoke</button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/50 transition">
+                                <td class="px-6 py-4 font-medium">Test Script</td>
+                                <td class="px-6 py-4 font-mono text-slate-400">sk_test_1102...x921</td>
+                                <td class="px-6 py-4 text-slate-500">Jan 14, 2026</td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-red-400 hover:text-red-300 text-xs">Revoke</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script>
+        // Safety check for Lucide icons (prevents crash if internet is slow)
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+        // --- State Management ---
+        let currentFileType = 'image';
+        
+        // --- UI Logic ---
+
+        // 1. Fixed Navigation Function
+        function navigate(viewId) {
+            // A. Update Tab Styling
+            document.querySelectorAll('nav button').forEach(btn => {
+                // Reset all nav buttons to inactive
+                if(btn.id) btn.className = 'nav-inactive py-5 transition';
+            });
+            
+            // Set active button style
+            const activeBtn = document.getElementById(`nav-${viewId}`);
+            if(activeBtn) activeBtn.className = 'nav-active py-5 transition';
+
+            // B. Handle View Switching (The Fix)
+            const targetId = `view-${viewId}`;
+            
+            document.querySelectorAll('.view-section').forEach(el => {
+                // If this is NOT the section we want to show, hide it
+                if (el.id !== targetId) {
+                    el.classList.remove('active');
+                    setTimeout(() => {
+                        // Double check it's still inactive before hiding
+                        if (!el.classList.contains('active')) {
+                            el.style.display = 'none';
+                        }
+                    }, 300);
+                }
+            });
+
+            // C. Show the Target Section
+            const target = document.getElementById(targetId);
+            if (target) {
+                target.style.display = 'block';
+                // Small delay to ensure 'display: block' applies before opacity transition
+                setTimeout(() => {
+                    target.classList.add('active');
+                }, 10);
+            }
+            
+            window.scrollTo(0,0);
+        }
+
+        // 2. File Type Selector
+        function setFileType(type) {
+            currentFileType = type;
+            // Visual toggle
+            ['image', 'excel', 'word'].forEach(t => {
+                const btn = document.getElementById(`btn-${t}`);
+                if (!btn) return;
+                
+                if (t === type) {
+                    if (t === 'image') btn.className = "text-primary border-b-2 border-primary pb-2 flex items-center gap-2";
+                    else if (t === 'excel') btn.className = "text-green-500 border-b-2 border-green-500 pb-2 flex items-center gap-2";
+                    else if (t === 'word') btn.className = "text-blue-500 border-b-2 border-blue-500 pb-2 flex items-center gap-2";
+                } else {
+                    btn.className = "text-slate-400 border-b-2 border-transparent pb-2 flex items-center gap-2 hover:text-white";
+                }
+            });
+        }
+
+        // 3. Template Application
+        function applyTemplate() {
+            const templates = {
+                receipt: '{\n  "vendor": "string",\n  "total": "number",\n  "date": "string"\n}',
+                menu: '{\n  "restaurant": "string",\n  "items": [{ "name": "string", "price": "number" }]\n}',
+                resume: '{\n  "name": "string",\n  "skills": ["string"],\n  "email": "string"\n}'
+            };
+            const val = document.getElementById('template-select').value;
+            if(templates[val]) document.getElementById('schema-editor').value = templates[val];
+        }
+
+        // 4. Simulation Logic
+        function runSimulation() {
+            const loader = document.getElementById('loader');
+            const output = document.getElementById('json-output');
+            
+            // Show Loader
+            loader.classList.remove('hidden');
+            loader.style.display = 'flex';
+            
+            setTimeout(() => {
+                // Hide Loader
+                loader.classList.add('hidden');
+                loader.style.display = 'none';
+                
+                // Show Mock Result
+                output.textContent = JSON.stringify({
+                    "success": true,
+                    "data": {
+                        "vendor": "El Prince",
+                        "total": 450.00,
+                        "date": "2026-01-15",
+                        "items": [
+                            {"item": "Liver Sandwich", "price": 50},
+                            {"item": "Sausage", "price": 45}
+                        ]
+                    }
+                }, null, 2);
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
